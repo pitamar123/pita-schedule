@@ -1,0 +1,167 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4CAF50; /* A friendly green */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+#currentDay {
+    margin-top: 5px;
+    font-size: 1.1em;
+    font-weight: 300;
+}
+
+#editButton, #saveChangesButton {
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+#editButton:hover, #saveChangesButton:hover {
+    background-color: #e68900;
+}
+
+/* Schedule Container and Mobile-first Design */
+.schedule-container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.day-schedule {
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.day-title {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 10px 15px;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 2px solid #ccc;
+}
+
+.class-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.class-item:last-child {
+    border-bottom: none;
+}
+
+.class-item:hover {
+    background-color: #f9f9f9;
+}
+
+.class-info {
+    flex-grow: 1;
+}
+
+.class-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.class-time {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+/* Highlight the current day */
+.current-day {
+    border: 3px solid #FF9800; /* Orange highlight */
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.2);
+}
+
+/* Highlight the current class */
+.current-class {
+    background-color: #e8f5e9 !important; /* Light green background */
+    border-left: 5px solid #4CAF50;
+}
+
+/* --- Modal Styles for Editing --- */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#scheduleJsonInput {
+    width: 100%;
+    height: 300px;
+    margin: 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 0.9em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#saveStatus {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
