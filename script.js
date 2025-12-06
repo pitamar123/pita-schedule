@@ -8,10 +8,10 @@
 // =========================================================================
 
 // --- 1. CONFIGURE GITHUB SETTINGS HERE ---
-const GITHUB_TOKEN = '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'; // <<< CHANGE THIS
-const REPO_OWNER = 'pitamar123';           // <<< CHANGE THIS (e.g., 'johndoe')
-const REPO_NAME = 'pita-schedule';             // <<< CHANGE THIS (e.g., 'SchoolSchedule')
-const FILE_PATH = 'script.js';                       // File to update (this file)
+const GITHUB_TOKEN = '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; // <<< CHANGE THIS (Ensure this is a valid token)
+const REPO_OWNER = 'pitamar123';           // <<< CONFIGURED
+const REPO_NAME = 'pita-schedule';         // <<< CONFIGURED
+const FILE_PATH = 'script.js';             // File to update (this file)
 
 // --- 2. CUSTOMIZE YOUR INITIAL SCHEDULE DATA HERE ---
 // NOTE: This initial data will be overwritten by changes saved via the web.
@@ -60,7 +60,6 @@ const scheduleData = {
 
 // =========================================================================
 // --- 3. CORE SCHEDULE RENDERING LOGIC ---
-// (Unchanged from previous version)
 // =========================================================================
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -129,7 +128,7 @@ renderSchedule(scheduleData);
 setInterval(() => renderSchedule(scheduleData), 60000); // Refresh every minute
 
 // =========================================================================
-// --- 4. GITHUB PERSISTENCE LOGIC (New Code) ---
+// --- 4. GITHUB PERSISTENCE LOGIC ---
 // =========================================================================
 
 const editButton = document.getElementById('editButton');
@@ -141,7 +140,8 @@ const saveStatus = document.getElementById('saveStatus');
 
 editButton.onclick = function() {
     // Populate the textarea with the current scheduleData object as a JSON string
-    jsonInput.value = JSON.stringify(scheduleData, null, 4);
+    // Use the scheduleData variable from the global scope (which reflects the last saved state)
+    jsonInput.value = JSON.stringify(scheduleData, null, 4); 
     modal.style.display = 'block';
     saveStatus.textContent = '';
 };
@@ -161,7 +161,7 @@ saveButton.onclick = async function() {
     
     try {
         const newScheduleJson = jsonInput.value;
-        const newScheduleData = JSON.parse(newScheduleJson);
+        const newScheduleData = JSON.parse(newScheduleJson); // Validate JSON format
 
         // 1. Fetch the current file (to get its SHA)
         const fileUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
@@ -182,10 +182,8 @@ saveButton.onclick = async function() {
 
         // 2. Locate and replace the scheduleData in the file content
         const startMarker = 'const scheduleData = ';
-        const endMarker = '};'; // Looking for the closing bracket of the object
         
         const startIndex = currentContent.indexOf(startMarker);
-        let endIndex = currentContent.lastIndexOf(endMarker);
 
         // Find the index of the closing brace for the scheduleData object
         let braceCount = 0;
@@ -196,9 +194,9 @@ saveButton.onclick = async function() {
                 braceCount--;
                 if (braceCount === 0) {
                     // Check if the next non-whitespace character is a semicolon, which confirms the end of the object declaration
-                    const nextChar = currentContent.substring(i + 1).trimStart()[0];
-                    if (nextChar === ';') {
-                        scheduleEndIndex = i + 1;
+                    const nextCharSegment = currentContent.substring(i + 1).trimStart();
+                    if (nextCharSegment.startsWith(';')) {
+                        scheduleEndIndex = i + 1 + (currentContent.substring(i + 1).indexOf(';') + 1); // Index right after the semicolon
                         break;
                     }
                 }
@@ -213,8 +211,8 @@ saveButton.onclick = async function() {
         const prefix = currentContent.substring(0, startIndex + startMarker.length);
         const suffix = currentContent.substring(scheduleEndIndex);
         
-        // Ensure the new JSON is added with a trailing semicolon and closing bracket
-        const newContent = prefix + JSON.stringify(newScheduleData, null, 4) + ';' + suffix;
+        // The new content replaces the JSON structure between the start marker and the ending semicolon/line break.
+        const newContent = prefix + JSON.stringify(newScheduleData, null, 4) + ';\n' + suffix;
         
         // 3. Commit the new file content back to GitHub
         const updateResponse = await fetch(fileUrl, {
@@ -243,5 +241,4 @@ saveButton.onclick = async function() {
         saveStatus.textContent = '❌ ERROR: ' + error.message;
         console.error('Save error:', error);
     }
-
 };
