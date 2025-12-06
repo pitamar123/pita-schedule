@@ -8,9 +8,9 @@
 // =========================================================================
 
 // --- 1. CONFIGURE GITHUB SETTINGS HERE ---
-const GITHUB_TOKEN = 'YOUR_PERSONAL_ACCESS_TOKEN'; // <<< CHANGE THIS
-const REPO_OWNER = 'YourGitHubUsername';           // <<< CHANGE THIS (e.g., 'johndoe')
-const REPO_NAME = 'YourRepositoryName';             // <<< CHANGE THIS (e.g., 'SchoolSchedule')
+const GITHUB_TOKEN = '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'; // <<< CHANGE THIS
+const REPO_OWNER = 'pitamar123';           // <<< CHANGE THIS (e.g., 'johndoe')
+const REPO_NAME = 'pita-schedule';             // <<< CHANGE THIS (e.g., 'SchoolSchedule')
 const FILE_PATH = 'script.js';                       // File to update (this file)
 
 // --- 2. CUSTOMIZE YOUR INITIAL SCHEDULE DATA HERE ---
@@ -243,4 +243,5 @@ saveButton.onclick = async function() {
         saveStatus.textContent = '❌ ERROR: ' + error.message;
         console.error('Save error:', error);
     }
+
 };
